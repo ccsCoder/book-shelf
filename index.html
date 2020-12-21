@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sanchez&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Document</title>
+</head>
+<body>
+  <header>
+    <h1>My Bookshelf</h1>
+    <a href="www.google.com">Go to homepage</a>
+  </header>
+  <section class="add-book-section">
+    <h2>Search for a book</h2>
+    <form id="add-book-form">
+      <label for="book-name">Enter book name *</label>
+      <input
+        type="search"
+        placeholder="E.g: To kill a mocking bird"
+        id="book-name"
+      />
+      <label for="author-name">Enter author's name *</label>
+      <input
+        type="search"
+        placeholder="E.g Harper Lee"
+        id="author-name"
+      />
+      <div id="search-results" class="hide">
+        <div class="book-cover">
+          <img src="https://via.placeholder.com/130x170/.jpg" alt="" />
+        </div>
+        <div class="book-details">
+          <h4 class="results-title" title="See book in goodreads">
+            <a href="https://www.goodreads.com/book/show/">Book title to Goodreads</a></h4>
+          <h5>Author name</h5>
+        </div>
+      </div>
+      <div class="message"></div>
+      <datalist id="booksList">
+      </datalist>
+      <button id="add-book" class="solid hide">Add Book</button>
+      <button id="search-book" class="solid">Search</button>
+      <button class="text" id="cancel">Cancel</button>
+    </form>
+  </section>
+  <main class="book-shelf">
+    <h2>Your bookshelf is empty. </h2>
+  </main>
+  <aside>
+    <button class="fab" aria-label="Add a book" id="fab-add">+</button>
+  </aside>
+  <script src="js/index.js"></script>
+</body>
+</html>
