@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Sanchez&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sansita:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <title>Document</title>
 </head>
@@ -13,41 +13,45 @@
     <h1>My Bookshelf</h1>
     <a href="www.google.com">Go to homepage</a>
   </header>
-  <section class="add-book-section">
-    <h2>Search for a book</h2>
-    <form id="add-book-form">
-      <label for="book-name">Enter book name *</label>
-      <input
-        type="search"
-        placeholder="E.g: To kill a mocking bird"
-        id="book-name"
-      />
-      <label for="author-name">Enter author's name *</label>
-      <input
-        type="search"
-        placeholder="E.g Harper Lee"
-        id="author-name"
-      />
-      <div id="search-results" class="hide">
-        <div class="book-cover">
-          <img src="https://via.placeholder.com/130x170/.jpg" alt="" />
-        </div>
-        <div class="book-details">
-          <h4 class="results-title" title="See book in goodreads">
-            <a href="https://www.goodreads.com/book/show/">Book title to Goodreads</a></h4>
-          <h5>Author name</h5>
-        </div>
+  <section class="add-book-section hidden">
+    <h1>Search for a book</h1>
+    <form>
+      <div id="add-book-form" class="hidden">
+        <label for="book-name">Enter book name *</label>
+        <input
+          type="search"
+          placeholder="E.g: To kill a mocking bird"
+          id="book-name"
+        />
+        <label for="author-name">Enter author's name *</label>
+        <input
+          type="search"
+          placeholder="E.g Harper Lee"
+          id="author-name"
+        />
+        <button id="search-book" class="solid">Search</button>
+        <button class="text" id="cancel">Cancel</button>
       </div>
       <div class="message"></div>
-      <datalist id="booksList">
-      </datalist>
-      <button id="add-book" class="solid hide">Add Book</button>
-      <button id="search-book" class="solid">Search</button>
-      <button class="text" id="cancel">Cancel</button>
+      <!-- Search results display area -->
+      <div id="search-results" class="hidden">
+        <div class="book-cover">
+          <img src="https://via.placeholder.com/130x170/757575/ffffff/?text=No cover" height="500" width="350" alt="" />
+        </div>
+        <div class="book-details">
+          <h3 title="See book in goodreads">
+            <a href="https://www.goodreads.com/book/show/">Book title to Goodreads</a></h3>
+          <h5 class="author-name">Author name</h5>
+          <h6 class="published-years">1999</h6>
+          <ul class="chips-container"></ul>
+        </div>
+      </div>
+      <button id="add-book" class="solid hidden">Add Book</button>
+      <button class="text" id="cancel-results">Cancel</button>
     </form>
   </section>
   <main class="book-shelf">
-    <h2>Your bookshelf is empty. </h2>
+    <h2>It's lonely here. Let's add some books !</h2>
   </main>
   <aside>
     <button class="fab" aria-label="Add a book" id="fab-add">+</button>

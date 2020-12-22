@@ -8,8 +8,8 @@
 }
 
 html {
-  font-family: 'Sanchez', serif;
-  font-size: 20px;
+  font-family: 'Sansita', sans-serif;
+  font-size: 24px;
   box-sizing: border-box;
   color: var(--text-icon);
 }
@@ -35,20 +35,27 @@ header {
   z-index: 2;
 }
 
+h1 {
+  font-size: 1.5rem;
+}
+
 header > h1 {
   margin: 0;
 }
 
-header > a { color: var(--text-icon); }
+header > a { 
+  color: var(--text-icon);
+  border-bottom: 3px dotted var(--text-icon);
+}
 
 a {
   text-decoration: none;
-  border-bottom: .5px solid var(--primary);
+  border-bottom: 3px dotted var(--primary);
   color: var(--text-primary);
 }
 
 a:hover, a:focus {
-  color: var(--accent);
+  color: var(--text-primary);
 }
 
 a:visited {
@@ -56,8 +63,12 @@ a:visited {
 }
 
 /* common -- utility */
-.hide {
-  display: none !important; /* yeah, i did it */
+.hidden {
+  position: absolute; 
+  overflow: hidden; 
+  clip: rect(0 0 0 0); 
+  height: 1px; width: 1px; 
+  margin: -1px; padding: 0; border: 0; 
 }
 
 .success {
@@ -90,12 +101,26 @@ button.text {
   box-shadow: 0 0 0 0 rgba(0,0,0,.2), 0 0 0 0 rgba(0,0,0,.14), 0 0 0 0 rgba(0,0,0,.12);
 }
 
+.chips-container {
+  list-style: none;
+  padding-left: 0;
+  font-size: 0.7rem;
+  margin-top: 8px;
+}
+
+.chips-container > li {
+  display: inline-block;
+  padding: 4px 16px 8px 16px;
+  background-color: var(--primary-dark);
+  color: white;
+  border-radius: 16px;
+  margin-top: 8px;
+  margin-left: 4px;
+}
+
 /* add book form */
 .add-book-section {
-  position: relative;
-  visibility: hidden;
-  top: -300px;
-  height: 300px;
+  margin-top: 24px;
   color: var(--text-primary);
   z-index: 1;
   padding: 20px;
@@ -124,6 +149,11 @@ button.text {
   margin-left: 0;
 }
 
+#add-book {
+  width: 350px; /* same as image widht */
+  margin-left: 0;
+}
+
 #add-book-form > .message {
   font-size: 0.8rem;
   margin: 8px 0 8px 0;
@@ -131,20 +161,48 @@ button.text {
 
 /* book search results */
 #search-results {
+  margin-top: 24px;
   display: flex;
-  width: 400px;
-  justify-content: space-between;
+  max-width: 50vw;
+  justify-content: flex-start;
   align-items: flex-start;
 }
 
-#search-results > h4, h5 {
-  margin: 0;
+#search-results > .book-details {
+  margin-left: 32px;
+}
+
+/* #search-results h3, h5, h6 {
+  /* margin: 0;
+} */
+
+#search-results h3 {
+  margin: 0 0 16px 0;
+}
+
+#search-results a {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+}
+
+#search-results h5.author-name, h6 {
+  margin-top: 8px;
+  color: var(--text-secondary);
+}
+
+#search-results h5.author-name::before {
+  content: 'by ';
+}
+
+#search-results h6.published-years::before {
+  content: 'Published:  ';
 }
 
 .book-shelf {
   flex-grow: 1;
   padding: 10px;
   color: var(--text-primary);
+  text-align: center;
 }
 
 #fab-add {
@@ -168,7 +226,6 @@ button.text {
 }
 
 .book-open {
-  height: 300px;
   width: 200px;
   border: .5px solid darkorchid;
   border-radius: 3px;
