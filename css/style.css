@@ -8,8 +8,9 @@
 }
 
 html {
-  font-family: 'Sansita', sans-serif;
+  font-family: 'Ubuntu Mono', monospace;
   font-size: 24px;
+  font-weight: 400;
   box-sizing: border-box;
   color: var(--text-icon);
 }
@@ -33,10 +34,6 @@ header {
   justify-content: space-between;
   align-items: center;
   z-index: 2;
-}
-
-h1 {
-  font-size: 1.5rem;
 }
 
 header > h1 {
@@ -69,6 +66,14 @@ a:visited {
   clip: rect(0 0 0 0); 
   height: 1px; width: 1px; 
   margin: -1px; padding: 0; border: 0; 
+}
+
+.appear {
+  opacity: 1 !important;
+}
+
+.disappear {
+  opacity: 0 !important;
 }
 
 .success {
@@ -116,6 +121,30 @@ button.text {
   border-radius: 16px;
   margin-top: 8px;
   margin-left: 4px;
+}
+
+/* Notification host */
+.notification-host {
+  position: fixed;
+  width: 100%;
+  bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.notification-host > .snackbar {
+  background-color: var(--text-primary);
+  opacity: 0;
+  z-index: 5;
+  margin-top: 16px;
+  padding: 16px;
+  color: var(--text-icon);
+  border-radius: 8px;
+  box-shadow:  0px 4px 8px 4px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  transition: opacity .5s ease-in;
 }
 
 /* add book form */

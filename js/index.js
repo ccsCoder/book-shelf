@@ -27,7 +27,8 @@ const performSearch = async e => {
   updateMessage('');
   // no book found.
   if (results.count === 0) {
-    updateMessage(results.message);
+    Snackbar.notify('No book found with these details!');
+    // updateMessage('No book found with these details.');
     return;
   }
   // fill in the book details.
@@ -51,7 +52,8 @@ const toggleFormAndResults = (flag) => {
   } else {
     // show search books header
     // yeah, midway throught this shit, I was thinking it's getting out of hand.
-    // This is precisely why one should use a frwk.
+    // This is precisely why one should use a framework.
+    // Now this is a rabbit hole.
     document.querySelector('.add-book-section > h1').style.display = 'block';
     // show the form
     document.querySelector('#add-book-form').classList.remove('hidden');
@@ -148,10 +150,30 @@ const hideAddForm = () => {
   toggleFormAndResults(true);
 }
 
-// const createChip = chipText 
-
 const init = () => {
   attachEvents();
+}
+
+class Snackbar {
+  static host = document.querySelector('#snackbar-host');
+  static count = 0;
+  static delay = 5000;
+
+  static notify(message) {
+    let snack = `<div class="snackbar">${message}</div>`;
+    // dummy to get html string as a dom elem.
+    const dummy = document.createElement('div');
+    dummy.innerHTML = snack;
+    snack = Snackbar.host.appendChild(dummy.firstChild);
+    snack.classList.add('appear');
+    Snackbar.count++;
+    // set it to disappear after a delay.
+    setTimeout(() => {
+      snack.classList.remove('appear');
+      snack.classList.add('disappear');
+      snack.addEventListener('transitionend', Snackbar.host.removeChild(snack));
+    }, Snackbar.delay);
+  }
 }
 
 // wait for doc load.

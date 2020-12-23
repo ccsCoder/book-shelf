@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Sansita:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <title>Document</title>
 </head>
 <body>
   <header>
-    <h1>My Bookshelf</h1>
+    <h2>My Bookshelf</h2>
     <a href="www.google.com">Go to homepage</a>
   </header>
   <section class="add-book-section hidden">
@@ -29,10 +29,10 @@
           placeholder="E.g Harper Lee"
           id="author-name"
         />
+        <div class="message" aria-live="assertive"></div>
         <button id="search-book" class="solid">Search</button>
         <button class="text" id="cancel">Cancel</button>
       </div>
-      <div class="message"></div>
       <!-- Search results display area -->
       <div id="search-results" class="hidden">
         <div class="book-cover">
@@ -53,6 +53,9 @@
   <main class="book-shelf">
     <h2>It's lonely here. Let's add some books !</h2>
   </main>
+  <div class="notification-host" id="snackbar-host" aria-live="polite">
+    <!-- A host to display snackbar notifications -->
+  </div>
   <aside>
     <button class="fab" aria-label="Add a book" id="fab-add">+</button>
   </aside>
