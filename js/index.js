@@ -5,6 +5,8 @@ String.prototype.isEmpty = function() {
 
 const ENDPOINT = 'http://openlibrary.org/search.json?';
 const BOOK_COVERS_ENDPOINT = 'http://covers.openlibrary.org/b/id/'; //id/covers_i-S.jpg
+let Storage = null;
+const currentBook = {}; // yes I know it is not ideal. What'ya gonna do?
 
 const attachEvents = () => {
   document.querySelector('#fab-add').addEventListener('click', showAddForm);
@@ -12,8 +14,15 @@ const attachEvents = () => {
   document.querySelector('#search-book').addEventListener('click', performSearch);
   document.querySelector('#book-name').addEventListener('keypress', clearMessage);
   document.querySelector('#author-name').addEventListener('keypress', clearMessage);
-
+  document.querySelector('#add-book').addEventListener('click', saveBook);
 }
+
+const saveBook = e => {
+  e.preventDefault();
+  Storage.push('books', currentBook);
+  Snackbar.notify(`Added ${currentBook.details.title} to your bookshelf.`);
+  hideAddForm();
+};
 
 const clearMessage = () => {
   document.querySelector('.message').innerText = '';
@@ -28,11 +37,13 @@ const performSearch = async e => {
   // no book found.
   if (results.count === 0) {
     Snackbar.notify('No book found with these details!');
-    // updateMessage('No book found with these details.');
+    currentBook = {};
     return;
   }
   // fill in the book details.
   populateBookDetails(results);
+  // populate current book object;
+  populateBookObject(results);
   // hide form and show results.
   toggleFormAndResults(true);
 }
@@ -64,6 +75,15 @@ const toggleFormAndResults = (flag) => {
     document.querySelector('#add-book').classList.add('hidden');
     document.querySelector('#cancel-results').classList.add('hidden');
   }
+}
+
+const populateBookObject = result => {
+  currentBook.details = {};
+  currentBook.details.cover_i = result.details.cover_i;
+  currentBook.details.title = result.details.title;
+  currentBook.details.author_name = result.details.author_name;
+  currentBook.details.publish_year = result.details.publish_year.slice(0,5);
+  currentBook.details.subject = result.details.subject ? result.details.subject.slice(0,10) : ['No subject found'];
 }
 
 const populateBookDetails = result => {
@@ -151,9 +171,12 @@ const hideAddForm = () => {
 }
 
 const init = () => {
+  Storage = new xStore('neo:', localStorage);
+  if (!Storage.get('books')) {
+    Storage.set('books', []);
+  }
   attachEvents();
 }
-
 class Snackbar {
   static host = document.querySelector('#snackbar-host');
   static count = 0;
@@ -171,7 +194,10 @@ class Snackbar {
     setTimeout(() => {
       snack.classList.remove('appear');
       snack.classList.add('disappear');
-      snack.addEventListener('transitionend', Snackbar.host.removeChild(snack));
+      snack.addEventListener('transitionend', e => {
+        Snackbar.host.removeChild(snack);
+        Snackbar.count--;
+      });
     }, Snackbar.delay);
   }
 }
