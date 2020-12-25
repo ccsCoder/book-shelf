@@ -5,6 +5,7 @@ String.prototype.isEmpty = function() {
 
 const ENDPOINT = 'http://openlibrary.org/search.json?';
 const BOOK_COVERS_ENDPOINT = 'http://covers.openlibrary.org/b/id/'; //id/covers_i-S.jpg
+const DEFAULT_BOOK_COVER = 'https://via.placeholder.com/130x170/757575/ffffff/?text=No cover';
 let Storage = null;
 const currentBook = {}; // yes I know it is not ideal. What'ya gonna do?
 
@@ -20,8 +21,11 @@ const attachEvents = () => {
 const saveBook = e => {
   e.preventDefault();
   Storage.push('books', currentBook);
-  Snackbar.notify(`Added ${currentBook.details.title} to your bookshelf.`);
   hideAddForm();
+  appendBookToShelf(currentBook);
+  Snackbar.notify(`Added ${currentBook.details.title} to your bookshelf.`);
+  // reset image of the found book
+  document.querySelector('#search-results > .book-cover > img').setAttribute('src', DEFAULT_BOOK_COVER);
 };
 
 const clearMessage = () => {
@@ -156,7 +160,12 @@ const updateMessage = (message, isSuccess = false) => {
   messageElem.innerText = message;
 }
 
+const clearForm = () => {
+  document.querySelectorAll('#add-book-form input').forEach(input => input.value = '');
+}
+
 const showAddForm = () => {
+  clearForm();
   document.querySelector('.add-book-section').classList.remove('hidden');
   // hide the no-book found message.
   document.querySelector('.book-shelf > h2').style.display = 'none';
@@ -171,10 +180,7 @@ const hideAddForm = () => {
 }
 
 const init = () => {
-  Storage = new xStore('neo:', localStorage);
-  if (!Storage.get('books')) {
-    Storage.set('books', []);
-  }
+  initBooksStorage();
   attachEvents();
 }
 class Snackbar {
@@ -202,5 +208,35 @@ class Snackbar {
   }
 }
 
+const getBookCoverSource = cover_id => 
+  cover_id ? `${BOOK_COVERS_ENDPOINT}${cover_id}-M.jpg` : 'https://via.placeholder.com/130x170/757575/ffffff/?text=No cover';
+
+const appendBookToShelf = book => {
+  const bookDom = `<article class="book">
+    <div class="book-cover-small">
+      <img src="${getBookCoverSource(book.details.cover_i)}" alt="${book.details.title}" />
+    </div>
+    <div class="details-small">
+      <h4 title="${book.details.title}" class="truncate">${book.details.title}</h4>
+      <h5 class="author-name truncate">${book.details.author_name.join(',')}</h5>
+    </div>
+  </article>`;
+  const dummyDiv = document.createElement('div');
+  dummyDiv.innerHTML = bookDom;
+  const addedBook = document.querySelector('.books-grid').appendChild(dummyDiv.firstChild);
+  addedBook.classList.add('appear');
+}
+
 // wait for doc load.
 document.addEventListener('DOMContentLoaded', init);
+
+const initBooksStorage = () => {
+  Storage = new xStore('neo:', localStorage);
+  const storedBooks = Storage.get('books');
+  if (!storedBooks || storedBooks.length === 0) {
+    Storage.set('books', []);
+  } else {
+    document.querySelector('.book-shelf > h2').innerText = 'Here\'s your collection... ';
+    storedBooks.forEach(book => appendBookToShelf(book));
+  }
+}
